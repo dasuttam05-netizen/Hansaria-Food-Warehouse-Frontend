@@ -1,16 +1,13 @@
 export function getApiOrigin() {
-  const envOrigin = process.env.REACT_APP_API_ORIGIN;
-  if (envOrigin) {
-    return envOrigin.replace(/\/+$/, "");
+  const origin = process.env.REACT_APP_API_ORIGIN;
+
+  if (!origin) {
+    console.error("❌ API ORIGIN not set in environment variables");
+    return "";
   }
 
-  if (typeof window === "undefined") {
-    return "http://localhost:4001";
-  }
-
-  const protocol = window.location.protocol || "http:";
-  const host = window.location.hostname || "localhost";
-  return `${protocol}//${host}:4001`;
+  // remove trailing slash
+  return origin.replace(/\/+$/, "");
 }
 
 export function getApiUrl(path = "") {
